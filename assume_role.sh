@@ -1,6 +1,6 @@
 if [ "$#" -ne 3 ]
 then
-  echo "Usage: source assume_role.sh [account_id] [role] [base_account_id]"
+  echo "Usage: source assume_role.sh [account_id] [role] [base_account_profile]"
   exit 1
 fi
 

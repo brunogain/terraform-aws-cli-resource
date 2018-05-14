@@ -27,10 +27,11 @@ locals {
 module "create_vpc_association_authorization" {
   source = "../../cli_resource"
 
-  account_id      = "123456789" # Account with the private hosted zone
-  role            = "TF_Role"
-  cmd             = "aws route53 create-vpc-association-authorization ${local.cli_flags}"
-  destroy_cmd     = "aws route53 delete-vpc-association-authorization ${local.cli_flags}"
+  account_id           = "123456789" # Account with the private hosted zone
+  base_account_profile = "master_account"
+  role                 = "TF_Role" # Role to be assumed
+  cmd                  = "aws route53 create-vpc-association-authorization ${local.cli_flags}"
+  destroy_cmd          = "aws route53 delete-vpc-association-authorization ${local.cli_flags}"
 }
 
 module "associate_vpc_with_zone" {

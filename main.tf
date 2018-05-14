@@ -8,6 +8,10 @@ variable "account_id" {
   description = "The account that holds the role to assume in. Will use providers account by default"
   default = "0"
 }
+variable "base_account_profile" {
+  description = "The profile that has the permission to assume the role"
+  default = "0"
+}
 variable "role" {
   description = "The role to assume in order to run the cli command."
 }
@@ -20,8 +24,9 @@ variable "dependency_ids" {
 data "aws_caller_identity" "id" {}
 
 locals {
-  account_id      = "${var.account_id == 0 ? data.aws_caller_identity.id.account_id : var.account_id}"
-  assume_role_cmd = "source ${path.module}/assume_role.sh ${local.account_id} ${var.role} ${local.base_account_id}"
+  account_id                = "${var.account_id == 0 ? data.aws_caller_identity.id.account_id : var.account_id}"
+  base_account_profile      = "${var.base_account_profile == "" ? "" : var.base_account_profile}"
+  assume_role_cmd           = "source ${path.module}/assume_role.sh ${local.account_id} ${var.role} ${local.base_account_profile}"
 }
 
 resource "null_resource" "cli_resource" {
